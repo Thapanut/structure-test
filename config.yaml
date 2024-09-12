@@ -1,0 +1,16 @@
+app:
+  port: 9000
+  time_zone: "Asia/Bangkok"
+
+db:
+  hr_nhj_schema:
+    user: "exuser"
+    password: "expassword"
+    schema_name: "exschema"
+    database: "common"
+    port: 5432
+    host: "127.0.0.1"
+    ssl_mode: "disable"
+    max_idle_connection: 10
+    max_open_connection: 50
+    max_life_time_connection_minute: 30
