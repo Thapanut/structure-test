@@ -1,24 +1,38 @@
-# structure-test
+# Structure-Test
 
-structure project ที่ใช้จะเป็น pattern Hexagonal Architecture
-โดยมี service เป็นตัวหลัก ที่เขียน business logic และจะไปเรียกใช้ชั้นของ repositories ในการ query หรือ เรียกใช้ thirdparty อื่นๆ
+## ภาพรวม
+โครงการนี้ใช้ **Hexagonal Architecture** โดยมี **service** เป็นแกนหลักในการประมวลผลธุรกิจ (business logic) และเชื่อมต่อกับส่วนอื่นๆ ผ่าน **repositories**
 
-# Routes
+## โฟลเดอร์หลัก
+* **routes:**
+  * **controllers:** ประมวลผลคำขอจากผู้ใช้
+  * **register.go:** กำหนดเส้นทางและวิธีการรับคำขอ HTTP
+  * **search_list.go:** จัดการคำขอค้นหา
+  * **serverInterface.go:** กำหนด interface สำหรับเซิร์ฟเวอร์
+  * **middleware:** ฟังก์ชันที่ทำงานก่อนและหลังการประมวลผลคำขอ
+* **common:**
+  * **utils:** ฟังก์ชันทั่วไป เช่น การแปลงเวลา (convertTime)
+  * **models:** โครงสร้างข้อมูลที่ใช้ร่วมกัน
+* **storage:**
+  * จัดการการเชื่อมต่อกับ storage เช่น S3
 
-routes: โฟลเดอร์นี้เก็บไฟล์ที่เกี่ยวข้องกับการกำหนดเส้นทาง (routes) ในแอปพลิเคชัน เช่น การแมป URL ไปยังฟังก์ชันที่เหมาะสม โดยใน routes ประกอบไป ด้วยส่วนต่างๆดังนี้
-controllers: โฟลเดอร์นี้เก็บไฟล์ที่เป็นตัวควบคุม (controllers) ซึ่งเป็นส่วนที่รับคำขอจากผู้ใช้ และส่งต่อไปยังส่วนอื่นๆ ของแอปพลิเคชันเพื่อประมวลผลก่อนส่งผลลัพธ์กลับไปยังผู้ใช้
-register.go: เป็นไฟล์ Go ที่มีหน้าที่สำคัญในการกำหนดเส้นทาง (path) และวิธีการ (method) ที่แอปพลิเคชันจะรับคำขอ HTTP
-search_list.go: เป็น handle ในส่วนของ service searchlist
-serverInterface.go: ไฟล์นี้กำหนด interface  สำหรับเซิร์ฟเวอร์ จะทำการ init ก่อนเรียกใช้ ใน register
-middleware: โฟลเดอร์นี้เก็บไฟล์ที่เป็น middleware
+## Hexagonal Architecture
+[ภาพ diagram แสดง Hexagonal Architecture]
+* **Service:** แกนกลางของระบบ รับผิดชอบในการประมวลผลธุรกิจ
+* **Repositories:** ทำหน้าที่เชื่อมต่อกับแหล่งข้อมูล เช่น database, external API
 
+## การใช้งาน
+1. **เริ่มต้นเซิร์ฟเวอร์:** เรียกใช้ `main.go`
+2. **ส่งคำขอ:** ส่งคำขอ HTTP ไปยังเส้นทางที่กำหนดไว้ใน routes.StartServer() และไปยังไฟล์ `register.go`
 
-# Common
+## ตัวอย่าง RESTAPI
+* **POST /common/na-list/search:** ค้นหาข้อมูล
 
-ีutils นี้จะเก็บเป็น  funtion ที่เรียกใช้ บ่อยๆ เช่น convertTime
-models จะเก็บเป็น struct กลางที่ service เรียกไปใช้ เป็น standard
+## อื่นๆ
+* **Middleware:** 
+  * **Authentication:** ตรวจสอบสิทธิ์ผู้ใช้งาน
+  * **Logging:** บันทึก log
 
-
-# stroage
-
-ไว้เกี่ยวกับ ทำ service เชื่อมต่อ stroage เช่น s3 
+## คำถามที่พบบ่อย
+* **Q: ** ทำไมต้องใช้ Hexagonal Architecture?
+* **A: ** เพื่อแยกส่วนต่างๆ ของระบบออกจากกัน ทำให้ทดสอบและบำรุงรักษาได้ง่ายขึ้น
