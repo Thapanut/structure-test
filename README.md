@@ -17,7 +17,6 @@
   * จัดการการเชื่อมต่อกับ storage เช่น S3
 
 ## Hexagonal Architecture
-[ภาพ diagram แสดง Hexagonal Architecture]
 * **Service:** แกนกลางของระบบ รับผิดชอบในการประมวลผลธุรกิจ
 * **Repositories:** ทำหน้าที่เชื่อมต่อกับแหล่งข้อมูล เช่น database, external API
 
